@@ -10,17 +10,19 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;1,9..40,500&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <link rel="stylesheet" href="src/style.css" />
     <title>Weather Forecast</title>
   </head>
   <body>
     <div class="weather-app">
       <header>
-        <form class="search-form">
+        <form class="search-form" id="search-form">
           <input
             type="search"
             placeholder="Enter a city.."
             required
+            id="search-form-input"
             class="search-form-input"
           />
           <input type="submit" value="Search" class="search-form-button" />
@@ -33,27 +35,28 @@
             <p class="weather-app-details">
               Tuesday 14:49, scattered clouds
               <br />
-              Humidity: <strong>66%</strong>, Wind: <strong>3.13km/h</strong>
+              Humidity: <strong class="weather-app-humidity">66%</strong>, Wind:
+              <strong class="weather-app-wind">3.13km/h</strong>
             </p>
           </div>
           <div class="weather-app-temperature-container">
             <div class="weather-app-icon">🌤️</div>
             <div class="weather-app-value">12</div>
-            <div class="weatehr-app-unit">°C</div>
+            <div class="weather-app-unit">°C</div>
           </div>
         </div>
       </main>
       <footer>
-        Coded by
+        This project was coded by
         <a href="https://github.com/BongieJay" target="_blank">
           Sbongile Ngwekazi</a
-        >, hosted on
+        >, is
         <a href="https://github.com/BongieJay/my-daily-weather" target="_blank">
-          Github</a
+          open sourced on Github</a
         >
-        and website hosted
+        and
         <a href="https://jay-daily-weather-app.netlify.app/" target="_blank"
-          >on Netlify</a
+          >hosted on Netlify</a
         >
       </footer>
     </div>
