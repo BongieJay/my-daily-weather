@@ -1,39 +1,23 @@
-function handleSearch(event) {
-  event.preventDefault();
-  let searchInput = document.querySelector("#search-form-input");
-  searchCity(searchInput.value);
-}
-
-function searchCity(city) {
-  let apiKey = "4839c9d6ef9d2edb7882a93cafff0cd8";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(refreshWeather);
-}
-
 function refreshWeather(response) {
-  document.querySelector(".weather-app-city").innerHTML = response.data.name;
-  document.querySelector(
-    ".weather-app-temperature-container .weather-app-value"
-  ).innerHTML = Math.round(response.data.main.temp);
-  document.querySelector(".weather-app-details").innerHTML = `${formatDate(
-    new Date()
-  )}, ${response.data.weather[0].description}`;
-  document.querySelector(
-    ".weather-app-humidity"
-  ).innerHTML = `Humidity: ${response.data.main.humidity}%`;
-  document.querySelector(".weather-app-wind").innerHTML = `Wind: ${Math.round(
-    response.data.wind.speed
-  )} km/h`;
-  document.querySelector(
-    ".weather-app-icon"
-  ).innerHTML = `<img src="https://openweathermap.org/img/wn/${response.data.weather[0].icon}.png" alt="${response.data.weather[0].description}" />`;
-}
+  let temperatureElement = document.querySelector("#temperature");
+  let temperature = response.data.temperature.current;
+  let cityElement = document.querySelector("#city");
+  let descriptionElement = document.querySelector("#description");
+  let humidityElement = document.querySelector("#humidity");
+  let windSpeedElement = document.querySelector("#wind-speed");
+  let timeElement = document.querySelector("#time");
+  let date = new Date(response.data.time * 1000);
 
+  cityElement.innerHTML = response.data.city;
+  timeElement.innerHTML = formatDate(date);
+  descriptionElement.innerHTML = response.data.condition.description;
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+  windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
+  temperatureElement.innerHTML = Math.round(temperature);
+}
 function formatDate(date) {
-  let hours = date.getHours();
   let minutes = date.getMinutes();
-  if (hours < 10) hours = `0${hours}`;
-  if (minutes < 10) minutes = `0${minutes}`;
+  let hours = date.getHours();
   let days = [
     "Sunday",
     "Monday",
@@ -44,11 +28,27 @@ function formatDate(date) {
     "Saturday",
   ];
   let day = days[date.getDay()];
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
   return `${day} ${hours}:${minutes}`;
 }
 
-document
-  .querySelector("#search-form")
-  .addEventListener("submit", handleSearchSubmit);
+function searchCity(city) {
+  let apiKey = "3e3327a51fbe30a3ff308740cot7f2a2";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(refreshWeather);
+}
+
+function handleSearchSubmit(event) {
+  event.preventDefault();
+  let searchInput = document.querySelector("#search-form-input");
+
+  searchCity(searchInput.value);
+}
+
+let searchFormElement = document.querySelector("#search-form");
+searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Paris");
