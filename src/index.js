@@ -7,7 +7,10 @@ function refreshWeather(response) {
   let windSpeedElement = document.querySelector("#wind-speed");
   let timeElement = document.querySelector("#time");
   let date = new Date(response.data.time * 1000);
+
   let iconElement = document.querySelector("#icon");
+
+  console.log(response.data.condition.description);
 
   cityElement.innerHTML = response.data.city;
   timeElement.innerHTML = formatDate(date);
@@ -15,11 +18,9 @@ function refreshWeather(response) {
   humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
   windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
   temperatureElement.innerHTML = Math.round(temperature);
-  iconElement.innerHTML =
-    '<img src="${response.data.condition.icon_url}" class="weather-app-icon" />';
-
-  getForecast(response.data.city);
+  iconElement.innerHTML = getForecast(response.data.city);
 }
+
 function formatDate(date) {
   let minutes = date.getMinutes();
   let hours = date.getHours();
@@ -32,7 +33,9 @@ function formatDate(date) {
     "Friday",
     "Saturday",
   ];
+
   let day = days[date.getDay()];
+
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
@@ -67,8 +70,6 @@ function getForecast(city) {
 }
 
 function displayForecast(response) {
-  console.log(response.data);
-
   let forecastHtml = "";
 
   response.data.daily.forEach(function (day, index) {
@@ -80,6 +81,8 @@ function displayForecast(response) {
           <div class="weather-forecast-date">${formatDay(day.time)}</div>
 
           <img src="${day.condition.icon_url}" class="weather-forecast-icon" />
+
+
           <div class="weather-forecast-temperatures">
            <div class="weather-forecast-temperature">
             <strong>${Math.round(day.temperature.maximum)}°</strong>
@@ -88,6 +91,7 @@ function displayForecast(response) {
               day.temperature.minimum
             )}°
             </div>
+
           </div>
         </div>
           `;
@@ -102,3 +106,4 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Paris");
+getForecast("Paris");
